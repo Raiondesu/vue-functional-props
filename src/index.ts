@@ -1,3 +1,5 @@
+import { SetupContext } from 'vue';
+
 export type TProp<T> = { (): T } | { new(...args: never[]): T & object } | { new(...args: string[]): Function };
 
 export type TPropType<T> = TProp<T> | TProp<T>[];
@@ -48,8 +50,9 @@ type FinalProps<P extends FinalPropsTemplate> = P extends VuePropsTemplate ? Pro
  */
 export const withProps = <
   P extends FinalPropsTemplate,
-  T extends (this: unknown, props: FinalProps<P>, ...args: any[]) => any
->(props: P, setup: T): T => {
+  C extends SetupContext,
+  S extends (this: unknown, props: FinalProps<P>, context: C) => any
+>(props: P, setup: S): S => {
   (setup as any).props = props;
 
   return setup;

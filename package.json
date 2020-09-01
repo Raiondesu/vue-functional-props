@@ -45,7 +45,8 @@
     "ts-jest": "^24.1.0",
     "tslint": "^5.20.0",
     "ttypescript": "^1.5.7",
-    "typescript": "^3.6.4"
+    "typescript": "^3.6.4",
+    "vue": "^3.0.0-rc.9"
   },
   "scripts": {
     "test": "jest -i --passWithNoTests",
