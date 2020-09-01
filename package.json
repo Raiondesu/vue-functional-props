@@ -30,11 +30,7 @@
     "for browser",
     "TS"
   ],
-  "peerDependencies": {
-    "vue": "^3.0.0-rc.9"
-  },
   "devDependsencies": {
-    "vue": "^3.0.0-rc.9",
     "@kazanexpress/tslint": "^1.0.5",
     "@types/jest": "^24.0.18",
     "@types/lodash.clonedeep": "^4.5.6",
