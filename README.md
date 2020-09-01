@@ -85,7 +85,7 @@ export default withProps({
 
 ### API
 
-#### `function withProps<P extends Record<string, any>, S extends Function>(props: P, setup: S): S`
+#### `function withProps<P, S>(props: P, setup: S): S`
 
 A simple function wrapper that accepts a standard [vue props object definition](https://v3.vuejs.org/guide/component-props.html#prop-types) and a [setup function](https://v3.vuejs.org/api/composition-api.html#setup) and adds props to the setup function definition so they can be recognized by vue.
 
