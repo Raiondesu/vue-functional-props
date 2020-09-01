@@ -138,7 +138,10 @@ withProps(
 
 ---
 
-### `function props<T>(options: PropOptions<T>): PropOptions<T>`
+### `function props<T, D = T>(options: Prop<T, D>): Prop<T, D>`
+
+`T` - a complex type for the prop.\
+`D` - provide if default differs from `T`.
 
 Enables type validaton for complex types in props without the need to pass constructors or runtime validators.\
 Basically, a NOOP without TypeScript.
