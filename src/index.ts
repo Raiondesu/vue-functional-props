@@ -24,19 +24,31 @@ type ExtractArrayPropTypes<P extends ArrayPropsTemplate> = {
  * @returns the same setup function
  */
 export const withProps: {
+  /**
+   * A simple function wrapper that accepts a standard vue props object definition and a setup function and adds props to the setup function definition
+   *
+   * @param props a props object definition
+   * @param setup vue composition api setup function
+   * @returns the same setup function
+   */
   <
     P extends ObjectPropsTemplate,
     S extends FunctionalComponent<ExtractPropTypes<P>>
   >(props: P, setup: S): S;
 
+
+  /**
+   * A simple function wrapper that accepts a standard vue props array definition and a setup function and adds props to the setup function definition
+   *
+   * @param props a props array definition
+   * @param setup vue composition api setup function
+   * @returns the same setup function
+   */
   <
     P extends Readonly<Array<string>>,
     S extends FunctionalComponent<ExtractArrayPropTypes<P>>
   >(props: P, setup: S): S
-} = <
-  P extends Readonly<ObjectPropsTemplate>,
-  S extends FunctionalComponent<ExtractPropTypes<P>>
->(props: P, setup: S): S => {
+} = <P, S>(props: P, setup: S): S => {
   (setup as any).props = props;
 
   return setup;
