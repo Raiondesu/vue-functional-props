@@ -1,0 +1,106 @@
+{
+  "name": "vue-functional-props",
+  "version": "0.0.0",
+  "sideEffects": false,
+  "description": "Handle functional component props properly",
+  "main": "dist/js",
+  "module": "dist/es",
+  "unpkg": "dist/es",
+  "typings": "src",
+  "files": [
+    "dist",
+    "src",
+    "LICENSE",
+    "tsconfig.json",
+    "tslint.json",
+    "README.md"
+  ],
+  "keywords": [
+    "vue",
+    "vue.js",
+    "vue-3",
+    "typescript",
+    "tree-shakeable",
+    "side-effect-free",
+    "functional",
+    "pure",
+    "TypeScript",
+    "typings",
+    "Browser",
+    "for browser",
+    "TS"
+  ],
+  "peerDependencies": {
+    "vue": "^3.0.0-rc.9"
+  },
+  "devDependsencies": {
+    "vue": "^3.0.0-rc.9",
+    "@kazanexpress/tslint": "^1.0.5",
+    "@types/jest": "^24.0.18",
+    "@types/lodash.clonedeep": "^4.5.6",
+    "@types/node": "^12.11.7",
+    "@zoltu/typescript-transformer-append-js-extension": "^1.0.1",
+    "bili": "^4.8.1",
+    "coveralls": "^3.0.7",
+    "jest": "^24.9.0",
+    "lodash.clonedeep": "^4.5.0",
+    "madge": "^3.5.0",
+    "rollup-plugin-typescript2": "^0.24.3",
+    "ts-jest": "^24.1.0",
+    "tslint": "^5.20.0",
+    "ttypescript": "^1.5.7",
+    "typescript": "^3.6.4"
+  },
+  "scripts": {
+    "test": "jest -i",
+    "build:js": "ttsc --outDir dist/js -t ES2015",
+    "build:es": "ttsc --outDir dist/es -t ES2015 --module esnext",
+    "build:next": "ttsc --outDir dist/esnext --module esnext",
+    "build:umd": "bili",
+    "build:umd-minimal": "bili -c bili.config.min.ts",
+    "build": "npm run checks && npm run build:js && npm run build:es && npm run build:next && npm run build:umd && npm run build:umd-minimal",
+    "dev": "tsc --noEmit -w",
+    "coverage": "cat ./coverage/lcov.info | coveralls",
+    "checks": "madge --circular --extensions ts src/index.ts",
+    "commit-build": "(git diff --quiet && git diff --staged --quiet) || (git commit -am \"Update dist\")",
+    "preversion": "npm t && npm run build && npm run commit-build",
+    "prerelease": "npm version prerelease --preid=rc && npm publish --tag next && git push",
+    "pre-minor": "npm version preminor --preid=rc && npm publish --tag next && git push",
+    "pre-major": "npm version premajor --preid=rc && npm publish --tag next && git push",
+    "patch": "npm version patch && npm publish && git push",
+    "minor": "npm version minor && npm publish && git push",
+    "major": "npm version major && npm publish && git push"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Raiondesu/vue-functional-props.git"
+  },
+  "author": "Raiondesu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Raiondesu/vue-functional-props/issues"
+  },
+  "homepage": "https://github.com/Raiondesu/vue-functional-props#readme",
+  "jest": {
+    "preset": "ts-jest",
+    "verbose": true,
+    "coverageReporters": [
+      "lcov",
+      "text"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/tests?/",
+      "/dist/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    },
+    "collectCoverage": true
+  }
+}
