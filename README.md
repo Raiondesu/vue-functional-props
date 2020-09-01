@@ -19,7 +19,7 @@ npm i -S vue-functional-props
 ```html
 <!-- ES2015 -->
 <script type="module">
-  import { eventMap, emit, on, off } from 'https://unpkg.com/vue-functional-props';
+  import { withProps } from 'https://unpkg.com/vue-functional-props';
 
   // use it here
 </script>
@@ -33,19 +33,19 @@ npm i -S vue-functional-props
 ```ts
 // TS-module (pure typescript),
 // allows compilation settings to be set from the project config
-import { eventMap, emit, on, off } from 'vue-functional-props/src';
+import { withProps } from 'vue-functional-props/src';
 
 // ES-module (npm/node, typescript)
-import { eventMap, emit, on, off } from 'vue-functional-props';
+import { withProps } from 'vue-functional-props';
 
 // ESNext (no polyfills for esnext)
-import { eventMap, emit, on, off } from 'vue-functional-props/dist/esnext';
+import { withProps } from 'vue-functional-props/dist/esnext';
 
 // ES-module (browser, node)
-import { eventMap, emit, on, off } from 'https://unpkg.com/vue-functional-props';
+import { withProps } from 'https://unpkg.com/vue-functional-props';
 
 // Classic node commonjs
-const { eventMap, emit, on, off } = require('vue-functional-props/dist/js');
+const { withProps } = require('vue-functional-props/dist/js');
 ```
 
 ### Documenation example
