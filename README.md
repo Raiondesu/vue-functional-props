@@ -76,22 +76,61 @@ import { withProps } from 'vue-functional-props'
 
 // No code duplication whatsoever!
 export default withProps({
-  level: Number;
+  level: Number,
 }, (props, context) => {
   // here props.level is already defined
   return h(`h${props.level}`, context.attrs, context.slots);
 });
 ```
 
-### API
+---
 
-#### `function withProps<P, S>(props: P, setup: S): S`
+## API
+
+### `function withProps<P, S>(props: P, setup: S): S`
 
 A simple function wrapper that accepts a standard [vue props object definition](https://v3.vuejs.org/guide/component-props.html#prop-types) and a [setup function](https://v3.vuejs.org/api/composition-api.html#setup) and adds props to the setup function definition so they can be recognized by vue.
 
-For now only works with object prop definitions, not with arrays.
+Usage with object prop notation:
+```ts
+withProps({
+  level: Number,
+  someProp: {
+    type: String,
+    required: true
+  },
+  otherProp: {
+    type: String,
+    default: ''
+  }
+}, (props, context) => {
+  props.level // number | undefined
+  props.someProp // string
+  props.otherProp // string | undefined
 
-#### `function props<T>(options: PropOptions<T>): PropOptions<T>`
+  return h(`h${props.level}`, context.attrs, context.slots);
+});
+```
+
+Usage with an array notation:
+```ts
+withProps(
+  // `as const` cast is needed for array notation in order for TS to infer the type
+  ['level', 'someProp', 'otherProp'] as const,
+  (props, context) => {
+    // No way around `any` if using array notation
+    props.level // any
+    props.someProp // any
+    props.otherProp // any
+
+    return h(`h${props.level}`, context.attrs, context.slots);
+  }
+);
+```
+
+---
+
+### `function props<T>(options: PropOptions<T>): PropOptions<T>`
 
 Enables type validaton for complex types in props without the need to pass constructors or runtime validators.\
 Basically, a NOOP without TypeScript.
@@ -133,8 +172,6 @@ export default withProps({
 
 - [ ] Tests
 - [ ] Coverage
-- [ ] Proper type inference for array props
-- [ ] Proper type inference for optional props
 
 ---
 
