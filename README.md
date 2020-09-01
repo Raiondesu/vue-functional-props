@@ -12,21 +12,21 @@ or\
 
 **npm**:
 ```
-npm i -S eventhoven
+npm i -S vue-functional-props
 ```
 
 **browser**:
 ```html
 <!-- ES2015 -->
 <script type="module">
-  import { eventMap, emit, on, off } from 'https://unpkg.com/eventhoven';
+  import { eventMap, emit, on, off } from 'https://unpkg.com/vue-functional-props';
 
   // use it here
 </script>
 
-<!-- ES5 with IE11+ general syntax polyfills, global object - `eventhoven` -->
+<!-- ES5 with IE11+ general syntax polyfills, global object - `vue-functional-props` -->
 <!-- Polyfill `window.Promise` and `Object.assign` yourself! -->
-<script src="https://unpkg.com/eventhoven/dist/umd.js"></script>
+<script src="https://unpkg.com/vue-functional-props/dist/umd.js"></script>
 ```
 
 **Importing**:
