@@ -134,6 +134,7 @@ export default withProps({
 - [ ] Tests
 - [ ] Coverage
 - [ ] Proper type inference for array props
+- [ ] Proper type inference for optional props
 
 ---
 
