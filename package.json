@@ -1,6 +1,6 @@
 {
   "name": "vue-functional-props",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "sideEffects": false,
   "description": "Handle functional component props properly",
   "main": "dist/js",
