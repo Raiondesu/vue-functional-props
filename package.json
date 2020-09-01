@@ -48,6 +48,9 @@
     "typescript": "^3.6.4",
     "vue": "^3.0.0-rc.9"
   },
+  "peerDependencies": {
+    "vue": "^3.0.0-rc.9"
+  },
   "scripts": {
     "test": "jest -i --passWithNoTests",
     "build:js": "ttsc --outDir dist/js -t ES2015",
