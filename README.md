@@ -1,5 +1,13 @@
 # vue-functional-props
 
+> Handle functional component props properly
+
+[![travis](https://img.shields.io/travis/raiondesu/vue-functional-props?style=flat-square)](https://travis-ci.org/raiondesu/vue-functional-props "Latest Travis CI build")
+[![npm](https://img.shields.io/npm/dm/vue-functional-props.svg?style=flat-square)](https://www.npmjs.com/package/vue-functional-props "Downloads per month, but who cares?")
+[![size](https://img.shields.io/bundlephobia/minzip/vue-functional-props@latest?style=flat-square)](https://bundlephobia.com/result?p=vue-functional-props@latest "minzipped size") <!-- [![coveralls](https://img.shields.io/coveralls/github/Raiondesu/vue-functional-props?style=flat-square)](https://coveralls.io/github/Raiondesu/vue-functional-props "Code coverage") -->
+[![code quality](https://img.shields.io/codeclimate/maintainability/Raiondesu/vue-functional-props?style=flat-square)](https://codeclimate.com/github/Raiondesu/vue-functional-props/maintainability "Code quality")
+
+
 It's a small library with a single purpose - provide Vue 3 with a simple way of **type-safe** handling props for functional components.
 
 ## Installation
