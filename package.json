@@ -30,7 +30,7 @@
     "for browser",
     "TS"
   ],
-  "devDependsencies": {
+  "devDependencies": {
     "@kazanexpress/tslint": "^1.0.5",
     "@types/jest": "^24.0.18",
     "@types/lodash.clonedeep": "^4.5.6",
