@@ -21,7 +21,6 @@ type LambdaFunction = (...args: any) => any | (new (...args: any) => any);
 
 type VuePropsTemplate = Record<string, IPropOptions>;
 
-
 type PropsTypesFlat<P extends Record<string, TPropType<any>>> = {
   [key in keyof P]: P[key] extends LambdaFunction
     ? ReturnType<P[key]>
