@@ -8,7 +8,17 @@
 [![code quality](https://img.shields.io/codeclimate/maintainability/Raiondesu/vue-functional-props?style=flat-square)](https://codeclimate.com/github/Raiondesu/vue-functional-props/maintainability "Code quality")
 
 
-It's a small library with a single purpose - provide Vue 3 with a simple way of **type-safe** handling props for functional components.
+It's a small side-effect-free library with a single purpose - provide Vue 3 devs a simple way of **type-safe** handling properties for functional components.
+
+- [vue-functional-props](#vue-functional-props)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Documenation example](#documenation-example)
+  - [API](#api)
+    - [withProps](#withprops)
+    - [component](#component)
+    - [prop](#prop)
+  - [Contribute](#contribute)
 
 ## Installation
 
@@ -27,7 +37,7 @@ npm i -S vue-functional-props
 ```html
 <!-- ES2015 -->
 <script type="module">
-  import { withProps } from 'https://unpkg.com/vue-functional-props';
+  import { component } from 'https://unpkg.com/vue-functional-props';
 
   // use it here
 </script>
@@ -41,19 +51,19 @@ npm i -S vue-functional-props
 ```ts
 // TS-module (pure typescript),
 // allows compilation settings to be set from the project config
-import { withProps } from 'vue-functional-props/src';
+import { component } from 'vue-functional-props/src';
 
 // ES-module (npm/node, typescript)
-import { withProps } from 'vue-functional-props';
+import { component } from 'vue-functional-props';
 
 // ESNext (no polyfills for esnext)
-import { withProps } from 'vue-functional-props/dist/esnext';
+import { component } from 'vue-functional-props/dist/esnext';
 
 // ES-module (browser, node)
-import { withProps } from 'https://unpkg.com/vue-functional-props';
+import { component } from 'https://unpkg.com/vue-functional-props';
 
 // Classic node commonjs
-const { withProps } = require('vue-functional-props/dist/js');
+const { component } = require('vue-functional-props/dist/js');
 ```
 
 ### Documenation example
@@ -76,7 +86,7 @@ export default DynamicHeading;
 
 This is far from perfect for user experience, and is definitely in need of some sort of a wrapper (with type inference, preferably).
 
-This tiny (~200B gzipped) library allows to achieve just that!
+This tiny (~300B gzipped) library allows to achieve just that!
 
 ```ts
 import { h } from 'vue';
@@ -95,7 +105,13 @@ export default withProps({
 
 ## API
 
-### `function withProps<P, S>(props: P, setup: S): S`
+```ts
+import { component, withProps, prop } from 'vue-functional-props';
+```
+
+### withProps
+
+> `function withProps<P, S>(props: P, setup: S): S`
 
 A simple function wrapper that accepts a standard [vue props object definition](https://v3.vuejs.org/guide/component-props.html#prop-types) and a [setup function](https://v3.vuejs.org/api/composition-api.html#setup) and adds props to the setup function definition so they can be recognized by vue.
 
@@ -136,9 +152,125 @@ withProps(
 );
 ```
 
----
+### component
 
-### `function props<T, D = T>(options: Prop<T, D>): Prop<T, D>`
+> `function component(name: string, inheritAttrs: boolean = true)`
+
+Useful for when you need to define name, events and other properties,\
+but still need a functional component.
+
+> Note: it doesn't call `defineComponent`!
+
+Returns a type-safe functional component builder with the following methods:
+- `withProps` - identical to [the exported `withProps`](#withprops), but accepts only one argument - props definition. Returns the same object as the `component` function.
+- `emits` - accepts a map of event declaration like [this](https://github.com/Raiondesu/eventhoven#eventmapevents). Returns the same object as the `component` function.
+- `setup` - accepts the functional component itself, providing type-safety. Returns the component itself. Must be called last.
+
+```ts
+import { h } from 'vue';
+import { component } from 'vue-functional-props';
+
+export default component(
+  /* name:         */ 'DynamicHeading',
+  /* inheritAttrs: */ false
+)
+  .emits({
+    click(e: MouseEvents) {}
+  })
+  .withProps({
+    level: {
+      type: [Number, String],
+      required: true,
+      validator: level => Number(level) > 0 && Number(level) <= 6
+    }
+  })
+  .setup((props, context) => {
+    // here props.level is defined and typed as `number | string`
+    return h(`h${props.level}`, {
+      ...context.attrs,
+      on: {
+        // Here, `emit` is typed, and event name is autocompleted
+        click: e => context.emit('click', e)
+      }
+    }, context.slots);
+  });
+
+/* Equivalent to:
+const DynamicHeading = (props, context) => {
+  // Absolutely no typesafety here, everything is `any`
+  return h(`h${props.level}`, {
+    ...context.attrs,
+    on: {
+      click: e => context.emit('click', e)
+    }
+  }, context.slots);
+};
+
+DynamicHeading.displayName = 'DynamicHeading';
+DynamicHeading.inheritAttrs = false;
+DynamicHeading.props = {
+  level: {
+    type: [Number, String],
+    required: true,
+    validator: level => Number(level) > 0 && Number(level) <= 6
+  }
+};
+DynamicHeading.emits = {
+  click(e: MouseEvents) {}
+};
+
+export default DynamicHeading;
+*/
+```
+
+`withProps` and `emits` can be called in any order or not called at all:
+
+```ts
+// Valid
+component('DynamicHeading', false)
+  .withProps(['level'])
+  .setup((props, context) => {
+    return h(`h${props.level}`, {
+      ...context.attrs,
+      on: { click: e => context.emit('click', e) }
+    }, context.slots);
+  });
+
+
+// Also Valid
+component('DynamicHeading', false)
+  .emits({ click(e: MouseEvent) {} })
+  .setup((props, context) => {
+    return h(`h${context.attrs.level}`, {
+      ...context.attrs,
+      on: { click: e => context.emit('click', e) }
+    }, context.slots);
+  });
+
+// Also Valid
+component('DynamicHeading', false)
+  .setup((props, context) => {
+    return h(`h${context.attrs.level}`, {
+      ...context.attrs,
+      on: { click: e => context.emit('click', e) }
+    }, context.slots);
+  });
+
+// INVALID!
+component('DynamicHeading', false)
+  .setup((props, context) => {
+    return h(`h${context.attrs.level}`, {
+      ...context.attrs,
+      on: { click: e => context.emit('click', e) }
+    }, context.slots);
+  })
+  .emits({ click(e: MouseEvent) {} });
+// .setup must be called last!
+```
+
+### prop
+
+> `function prop<T, D = T>(options: Prop<T, D>): () => Prop<T, D>`
 
 `T` - a complex type for the prop.\
 `D` - provide if default differs from `T`.
@@ -156,8 +288,8 @@ export declare interface ITableColumn {}
 export default withProps({
     /**
      * The collection of rows for the table
-     */
-    rows: prop<TTableRow[]>({
+     */// Another call is to trick TS into inferring the prop type
+    rows: prop<TTableRow[]>()({
       type: Array,
       default: () => [],
     }),
@@ -165,7 +297,7 @@ export default withProps({
     /**
      * Collection of columns to be displayed
      */
-    columns: prop<ITableColumn[]>({
+    columns: prop<ITableColumn[]>()({
       type: Array,
       default: () => [],
     }),
@@ -176,13 +308,6 @@ export default withProps({
   return () => /* some render function */;
 });
 ```
-
----
-
-## TODO
-
-- [ ] Tests
-- [ ] Coverage
 
 ---
 
