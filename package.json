@@ -54,7 +54,7 @@
     "vue": "^3.0.0-rc.9"
   },
   "scripts": {
-    "test": "jest -i --passWithNoTests",
+    "test": "jest -i",
     "build:js": "ttsc --outDir dist/js -t ES2015",
     "build:es": "ttsc --outDir dist/es -t ES2015 --module esnext",
     "build:next": "ttsc --outDir dist/esnext --module esnext",
