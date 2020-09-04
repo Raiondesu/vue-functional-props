@@ -278,6 +278,20 @@ component('DynamicHeading', false)
 Enables type validaton for complex types in props without the need to pass constructors or runtime validators.\
 Basically, a NOOP without TypeScript.
 
+Currently needs to be an empty function, that retutns a function which accepts the prop options, like this:
+
+```ts
+prop<SomeType>(
+  // Empty function call
+)({
+  // Real function call with prop options
+  type: Object
+})
+```
+
+This is needed to infer the option type correctly due to
+[a design flaw in TypeScript](https://github.com/microsoft/TypeScript/issues/14400#issuecomment-507638537).
+
 ```ts
 import { prop, withProps } from 'vue-functional-props';
 
@@ -286,21 +300,21 @@ export declare interface TTableRow {}
 export declare interface ITableColumn {}
 
 export default withProps({
-    /**
-     * The collection of rows for the table
-     */// Another call is to trick TS into inferring the prop type
-    rows: prop<TTableRow[]>()({
-      type: Array,
-      default: () => [],
-    }),
+  /**
+   * The collection of rows for the table
+   */
+  rows: prop<TTableRow[]>()({
+    type: Array,
+    default: () => [],
+  }),
 
-    /**
-     * Collection of columns to be displayed
-     */
-    columns: prop<ITableColumn[]>()({
-      type: Array,
-      default: () => [],
-    }),
+  /**
+   * Collection of columns to be displayed
+   */
+  columns: prop<ITableColumn[]>()({
+    type: Array,
+    default: () => [],
+  }),
 }, (props) => {
   props.rows // TTableRow[]
   props.columns // ITableColumn[]
