@@ -163,7 +163,7 @@ but still need a functional component.
 
 Returns a type-safe functional component builder with the following methods:
 - `withProps` - identical to [the exported `withProps`](#withprops), but accepts only one argument - props definition. Returns the same object as the `component` function.
-- `emits` - accepts a map of event declaration like [this](https://github.com/Raiondesu/eventhoven#eventmapevents). Returns the same object as the `component` function.
+- `emits` - accepts a map of event declaration like [this](https://v3.vuejs.org/guide/component-custom-events.html#defining-custom-events). Unfortunately, only object event delcaration is supported at the moment. Returns the same object as the `component` function.
 - `setup` - accepts the functional component itself, providing type-safety. Returns the component itself. Must be called last.
 
 ```ts
